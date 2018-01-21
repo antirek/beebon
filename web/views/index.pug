@@ -1,0 +1,37 @@
+doctype html
+html(lang='ru')
+    head
+        title Beebon Web
+        link(rel='stylesheet',href='/static/bootstrap/dist/css/bootstrap.min.css')
+        link(rel='stylesheet',href='/static/highlightjs/styles/github.css')
+        link(rel='stylesheet',href='/static/c3/c3.min.css')
+
+        script(src='/static/jquery/dist/jquery.min.js')
+        script(src='/static/moment/min/moment-with-locales.js')
+        script(src='/static/bootstrap/dist/js/bootstrap.min.js')
+        script(src='/static/angular/angular.min.js')
+        script(src='/static/angular-route/angular-route.min.js')
+        script(src='/static/angular-resource/angular-resource.min.js')
+        script(src='/static/angular-ui-router/release/angular-ui-router.min.js')
+
+        script(src='/static/highlightjs/highlight.pack.js')
+        script(src='/static/angular-highlightjs/angular-highlightjs.js')
+
+        script(src='/static/angular-bootstrap/ui-bootstrap-tpls.min.js')
+        script(src="/static/d3/d3.min.js")
+        script(src="/static/c3/c3.min.js")
+        script(src='/public/app.js')
+
+    body(ng-app="beebon_dashboard")
+        nav.navbar.navbar-inverse
+            a.navbar-brand(href='/') Beebon Web
+            .collapse.navbar-collapse
+                ul.nav.navbar-nav
+                    li
+                      a(href='/kue/', target='_new')
+                        | Kue
+                        span.sr-only (current)
+
+        .container
+            .row
+                ui-view

@@ -1,0 +1,15 @@
+.col-md-2
+    h3
+        | Ключи
+    button.btn.btn-default(ui-sref="keys.dashboard") Dashboard
+    button.btn.btn-default(ui-sref="keys.create") Create
+    ul.list-group
+        a.list-group-item(
+        ng-repeat='model in mainCtrl.models'
+        ui-sref-active='active'
+        ui-sref='keys.view({ key: model })'
+        )
+            | {{ model }}
+            i.glyphicon.glyphicon-chevron-right.pull-right
+.col-md-10
+    ui-view

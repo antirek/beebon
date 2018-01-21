@@ -1,0 +1,157 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Beebon collector"
+host: "localhost:3000"
+basePath: "/api"
+securityDefinitions:
+  basicAuth:
+    type: basic
+schemes:
+- "http"
+security:
+- basicAuth: []
+paths:
+  /log/{key}:
+    post:      
+      tags:
+      - "log"
+      summary: "Add log by key with any json body"
+      operationId: "HandlerLogRequest"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "key"
+        in: "path"
+        description: "key"
+        required: true
+        type: "string"        
+      - in: "body"
+        name: "body"
+        description: "Custom JSON"
+        required: true
+        schema:
+          $ref: "#/definitions/Response"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        500:
+          description: "Any error"
+          schema:
+            $ref: "#/definitions/Response"
+
+  /task/{key}:
+    post:
+      tags:
+      - "task"
+      summary: "Add task by key with any json body"
+      operationId: "HandlerTaskRequest"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "key"
+        in: "path"
+        description: "key"
+        required: true
+        type: "string"        
+      - in: "body"
+        name: "body"
+        description: "Custom JSON"
+        required: true
+        schema:
+          $ref: "#/definitions/Response"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        500:
+          description: "Any error"
+          schema:
+            $ref: "#/definitions/Response"
+
+  /task/{key}/id/{id}:
+    get:
+      tags:
+      - "task"
+      summary: "Get task status by id"
+      operationId: "HandlerStatusRequest"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "key"
+        in: "path"
+        description: "key"
+        required: true
+        type: "string"        
+      - in: "path"
+        name: "id"
+        description: "id"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Status"
+        500:
+          description: "Any error"
+          schema:
+            $ref: "#/definitions/Response"
+
+  /file:
+    post:
+      tags:
+      - "file"
+      summary: "Post file"
+      operationId: "HandlerFile"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "file"
+        in: "formData"
+        description: "key"
+        required: true
+        type: "file"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        500:
+          description: "Any error"
+          schema:
+            $ref: "#/definitions/Response"
+
+definitions:
+  Response:
+    type: "object"
+    properties:
+      status:
+        type: "string"
+
+  Result:
+    type: "object"
+    properties:
+      result:
+        type: "string"
+      id:
+        type: "string"
+
+  Status:
+    type: "object"
+    properties:
+      status:
+        type: "string"
+      id:
+        type: "string"

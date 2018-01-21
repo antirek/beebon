@@ -1,0 +1,78 @@
+ul.nav.nav-tabs(role="tablist" id="keyTab")
+    li.active(role="presentation")
+        a(
+        href="#data"
+        aria-controls="home"
+        role="tab"
+        data-toggle="tab"
+        ) Данные
+    li(role="presentation")
+        a(
+        href="#post"
+        aria-controls="home"
+        role="tab"
+        data-toggle="tab"
+        ) Взаимодействие
+.tab-content
+    .tab-pane.active(
+    role="tabpanel"
+    id="data"
+    )
+
+        .col-md-6
+            h4 {{listCtrl.key}}
+            table.table.table-condensed.table-bordered
+                thead
+                    tr
+                        th Timestamp
+                        th Tag
+                        th
+                tbody
+                    tr(ng-repeat="item in listCtrl.keys")
+                        td {{item.timestamp}}
+                        td {{item.tag}}
+                        td
+                            button.btn.btn-default(ng-click="listCtrl.selectItem(item.id)")
+                                spam.glyphicon.glyphicon-eye-open
+            ui(
+            uib-pagination
+            total-items="listCtrl.itemCount"
+            ng-model="listCtrl.page"
+            items-per-page="listCtrl.limit"
+            ng-change="listCtrl.setPage()"
+            max-size="5"
+            boundary-links="true"
+            )
+
+        .col-md-6
+            div(ng-show="listCtrl.selectedItem")
+                h4 Payload
+                div(hljs source="listCtrl.selectedItem.payload" language="json")
+    .tab-pane(
+    role="tabpanel"
+    id="post"
+    )
+        h4 Log
+        div(
+        hljs
+        source="listCtrl.logCurl"
+        language="bash"
+        )
+        h4 Task
+        div(
+        hljs
+        source="listCtrl.taskCurl"
+        language="bash"
+        )
+
+        h4 Task status
+        div(
+        hljs
+        source="listCtrl.taskStatusCurl"
+        language="bash"
+        )
+script.
+    $('.nav-tabs a').on('click', function () {
+        $(this).tab('show');
+        return false;
+    });

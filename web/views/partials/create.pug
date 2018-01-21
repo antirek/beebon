@@ -1,0 +1,15 @@
+h4 Добавить ключ
+
+form.form.form-horizontal
+    .form-group
+        label.col-sm-3.control-label(for="name") Название
+        div.col-sm-8
+            input.form-control(
+            ng-model="createCtrl.key.name"
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Введите название"
+            required
+            )
+    a.btn.btn-primary.col-md-offset-2(ng-click="createCtrl.create()") Создать

@@ -1,0 +1,23 @@
+h3 Dashboard
+
+.col-sm-4
+    p.input-group
+        input.form-control(
+        type='text'
+        uib-datepicker-popup='yyyy-MM-dd'
+        ng-model='dashboardCtrl.date'
+        datepicker-options="dashboardCtrl.options"
+        is-open='opened'
+        close-text='Close'
+        alt-input-formats='["yyyy-MMMM-dd"]'
+        )
+        span.input-group-btn
+            button.btn.btn-default(type='button', ng-click='opened=!opened')
+                i.glyphicon.glyphicon-calendar
+.col-sm-4
+    a.btn.btn-primary(ng-click="dashboardCtrl.show()") Показать
+br
+hr
+.col-md-6(ng-repeat="model in dashboardCtrl.models" )
+    h5 {{model}}
+    div(id="{{model}}Chart")
