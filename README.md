@@ -25,3 +25,8 @@ Collect data &amp; run tasks - simple, fast, robust
 
 ![](images/ui.png)
 
+
+# run
+
+use docker-compose.yml for up service under docker
+
