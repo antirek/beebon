@@ -4,14 +4,17 @@ module.exports = {
         baseUrl: 'http://localhost:3000'
     },
     mysql: {
-        host: '127.0.0.1',
+        host: 'mysqldb',
         user: 'root',
         password: '1234',
         database: 'beebon',
         multipleStatements: true
     },
     kue: {
-        prefix: 'beebon_'
+        prefix: 'beebon_',
+        redis: {
+            host: 'redis'
+        }
     },
     web: {
         port: 3101

@@ -8,7 +8,7 @@ let server = (config) => {
   let app = express();
   let init = () => {
 
-    kue.createQueue();
+    kue.createQueue({redis: config.kue.redis});
     kueUiExpress(app, '/kue/', '/kue-api');
 
     app.set('views', __dirname + "/views");

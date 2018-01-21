@@ -1,6 +1,6 @@
 version: '2'
 services:
-  cdr:
+  mysqldb:
     image: mysql:5.7
     environment:
       - MYSQL_ROOT_PASSWORD=1234
@@ -18,18 +18,42 @@ services:
       - "6379:6379"
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-#      - "./config/etc/redis/:/usr/local/etc/redis/"
       - "/var/store/beebon/redis/:/data"
     restart: always
 
-#  beebon-collector:
-#    build: ./
-#    ports:
-#      - "3030:3030"
-    # environment:
-    #   - NODE_ENV=default
-    #   - NODE_CONFIG_DIR=/etc/beebon
-    # volumes:
-    #   - "/etc/localtime:/etc/localtime:ro"
-    #   - "./config/:/etc/beebon"
-    # restart: always
+  collector:
+    image: antirek/beebon
+    command: node collector
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=default
+      - NODE_CONFIG_DIR=/etc/beebon
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./config/:/etc/beebon"
+    restart: always
+
+  web:
+    image: antirek/beebon
+    command: node web
+    ports:
+      - "3101:3101"
+    environment:
+      - NODE_ENV=default
+      - NODE_CONFIG_DIR=/etc/beebon
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./config/:/etc/beebon"
+    restart: always
+
+  reporter:
+    image: antirek/beebon
+    command: node reporter
+    environment:
+      - NODE_ENV=default
+      - NODE_CONFIG_DIR=/etc/beebon
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./config/:/etc/beebon"
+    restart: always

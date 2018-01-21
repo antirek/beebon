@@ -6,7 +6,7 @@ class Publisher {
         this.jobs = {};
         this.prefix = config.kue.prefix;
 
-        this.queue = kue.createQueue();
+        this.queue = kue.createQueue({redis: config.kue.redis});
         this.queue.on('job complete', (id, type) => {
             console.log('job complete id', id, 'type', type);
             setStatus(this.jobs[id], 'complete');
