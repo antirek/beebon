@@ -35,5 +35,5 @@ module.exports = {
             }
         }
     },
-    filestore: 'uploads'
+    filestore: '/var/store/files'
 };
