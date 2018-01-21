@@ -5,7 +5,7 @@ var Report = require('../report');
 
 class DailyReport extends Report {
     _getStringSchedule() {
-        return 'every 1 minute';
+        return 'every 1 day at 1 AM';
     }
 
     _getReportSubject() {
