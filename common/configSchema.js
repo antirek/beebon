@@ -28,7 +28,8 @@ const configSchema = Joi.object().keys({
         users: Joi.any()
     }),
     kue: Joi.object().keys({
-        prefix: Joi.string().default('beebon_')
+        prefix: Joi.string().default('beebon_'),
+        redis: Joi.any()
     }),
     web: Joi.object().keys({
         port: Joi.number().integer().min(1).max(65535).required()
