@@ -50,6 +50,7 @@ services:
   reporter:
     image: antirek/beebon
     command: node reporter
+    network_mode: "service:mysqldb"
     environment:
       - NODE_ENV=default
       - NODE_CONFIG_DIR=/etc/beebon
