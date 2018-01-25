@@ -9,7 +9,7 @@ class Publisher {
         this.queue = kue.createQueue({redis: config.kue.redis});
         this.queue.on('job complete', (id, type) => {
             console.log('job complete id', id, 'type', type);
-            setStatus(this.jobs[id], 'complete');
+            this.setStatus(this.jobs[id], 'complete');
             delete this.jobs[id]
         });
     }
@@ -18,7 +18,6 @@ class Publisher {
         if (!data) {
             return 
         }
-
         conn.then((c) => {
             return c.query("UPDATE ?? SET `status` = ? where `id` = ? ;", 
                 [data.key, status, data.id]);
@@ -37,7 +36,7 @@ class Publisher {
         let job = this.queue.create(task, data).save((err) => {
             if (err) {
                 console.log('err', err);
-                setStatus(jobData, 'error');
+                this.setStatus(jobData, 'error');
             } else {
                 console.log('publish to kue', jobData);
                 this.jobs[job.id] = jobData;
