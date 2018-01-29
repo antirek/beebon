@@ -10,12 +10,12 @@ const config = {
 
 var createApp = require('./../collector/app');
 
-var conn = Promise.resolve({ 
+var conn = { 
     query: (q, v) => { 
         console.log('query', q, v)
         return Promise.resolve([{insertId: 'good'}]);
     }
-})
+}
 
 describe('handler file', () => {
     it('should return 200 response code on post file api/file/', (done) => {
