@@ -75,17 +75,22 @@ function createRouter(conn, config) {
         let key = req.params.key;
         let hours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
         let promises = hours.map((hour) => {
-            let beginTime = moment(date + ' 00:00:00').add(hour, 'hours').format('YYYY-MM-DD HH:mm:ss');
-            let endTime = moment(date + ' 00:00:00').add(hour + 1, 'hours').format('YYYY-MM-DD HH:mm:ss');
-            let query = "SELECT count(id) as cnt FROM " + key +
-                " WHERE timestamp BETWEEN '" + beginTime + "' AND '" + endTime + "';";
-            conn.query(query)
-                .then((rows) => {
-                    return Promise.resolve({
-                        hour: hour,
-                        count: rows[0]['cnt']
+            return new Promise((resolve, reject) => {
+                let beginTime = moment(date + ' 00:00:00').add(hour, 'hours').format('YYYY-MM-DD HH:mm:ss');
+                let endTime = moment(date + ' 00:00:00').add(hour + 1, 'hours').format('YYYY-MM-DD HH:mm:ss');
+                
+                let query = "SELECT count(id) as cnt FROM " + key +
+                    " WHERE timestamp BETWEEN '" + beginTime + "' AND '" + endTime + "';";
+                
+                conn.query(query)   
+                    .then((rows) => {
+                        //console.log('rows:', rows[0]);
+                        resolve({
+                            hour: hour,
+                            count: rows[0]['cnt']
+                        });
                     });
-                });
+            });
         });
 
         Promise.all(promises)

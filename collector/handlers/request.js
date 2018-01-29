@@ -23,7 +23,8 @@ const handler = ({conn, kue, config}) => {
         conn.query("INSERT INTO ?? (`tag`, `payload`) VALUES ( ? , ? );",
                 [key, tag, payload])
         .then((r) => {
-            let id = r[0].insertId;
+            console.log('result:', r)
+            let id = r.insertId;
             console.log('inserted id', id);
             if (req.sendToKue) {
                 kue.publish(config.kue.prefix + key, req.body, id);
