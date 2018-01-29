@@ -18,28 +18,25 @@ class Report {
     }
 
     _getTableCount(table, beginDate, endDate) {
-        return this._conn.then((c) => {
-            return c.query("SELECT count(id) FROM ?? WHERE timestamp between ? and ?;",
-            [table, beginDate, endDate]);
-        }).then(data => {
-            let counts = data[0];
-            return Promise.resolve({
-                table: table,
-                count: counts[0]['count(id)']
-            });
-        }).catch(console.log);
+        return this._conn.query("SELECT count(id) FROM ?? WHERE timestamp between ? and ?;",
+            [table, beginDate, endDate])
+            .then(counts => {
+                return Promise.resolve({
+                    table: table,
+                    count: counts[0]['count(id)']
+                });
+            })
+            .catch(console.log);
     }
 
     _getTablesList() {
-        return this._conn.then(c => {
-            return c.query("SHOW TABLES;");
-        }).then(data => {
-            let rows = data[0];
-            console.log('rows', rows);
-            return Promise.resolve(rows.map((row)=> {
-                return row['Tables_in_' + config.mysql.database];
-            }))
-        });
+        return this._conn.query("SHOW TABLES;")
+            .then(rows => {
+                console.log('rows', rows);
+                return Promise.resolve(rows.map((row) => {
+                    return row['Tables_in_' + config.mysql.database];
+                }))
+            });
     }
 
     _sendEmail(data) {
