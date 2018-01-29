@@ -56,8 +56,7 @@ function createRouter(conn, config) {
         let key = req.params.key;
 
         conn.query("SELECT count(id) FROM " + key + ";")
-            .then((data) => {
-                let rows = data[0];
+            .then((rows) => {                
 
                 let totalItemCount = rows[0]['count(id)'];
                 res.json({
@@ -78,19 +77,20 @@ function createRouter(conn, config) {
         let promises = hours.map((hour) => {
             let beginTime = moment(date + ' 00:00:00').add(hour, 'hours').format('YYYY-MM-DD HH:mm:ss');
             let endTime = moment(date + ' 00:00:00').add(hour + 1, 'hours').format('YYYY-MM-DD HH:mm:ss');
-            let query = "SELECT count(id) FROM " + key +
+            let query = "SELECT count(id) as cnt FROM " + key +
                 " WHERE timestamp BETWEEN '" + beginTime + "' AND '" + endTime + "';";
             conn.query(query)
                 .then((rows) => {
                     return Promise.resolve({
                         hour: hour,
-                        count: rows[0]['count(id)']
+                        count: rows[0]['cnt']
                     });
                 });
         });
 
         Promise.all(promises)
             .then((counts) => {
+                console.log('counts:', counts);
                 let result = {
                     columns: [['Количество']]
                 };
