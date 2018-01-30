@@ -29,7 +29,7 @@ class ReportServer {
 
     async _sendReport(config) {
         let mailer = Mailer(config);
-        let dbManager = DBManager(config);
+        let dbManager = await DBManager(config);
 
         let dailyReport = new DailyReport(dbManager, mailer);
         let weeklyReport = new WeeklyReport(dbManager, mailer);
