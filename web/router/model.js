@@ -110,7 +110,7 @@ function createRouter(conn, config) {
     router.get('/:key/create', (req, res) => {
         let key = req.params.key;
 
-        let query = "CREATE TABLE `" + key + "` (" +
+        let query_create_table = "CREATE TABLE `" + key + "` (" +
             "`id` int(10) NOT NULL AUTO_INCREMENT, " +
             "`timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, " +
             "`tag` varchar(32) NOT NULL DEFAULT '', " +
@@ -118,8 +118,17 @@ function createRouter(conn, config) {
             "`status` VARCHAR(32) DEFAULT NULL, " +
             "PRIMARY KEY (`id`)" +
             ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+
+        let query_create_time_index = "create index " key + "_timestamp_index on " + key + " (timestamp);";
+
+        let query = [
+          query_create_table, 
+          query_create_time_index
+        ].join("");
+
         conn.query(query)
-            .then(() => {
+            .then((result) => {
+                console.log('result:', result);
                 res.json({
                     status: "ok"
                 });
