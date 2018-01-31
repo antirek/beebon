@@ -1,6 +1,8 @@
 # beebon
+
 Collect data &amp; run tasks - simple, fast, robust
 
+[![Build Status](https://travis-ci.org/antirek/beebon.svg?branch=master)](https://travis-ci.org/antirek/beebon)
 
 # features
 
