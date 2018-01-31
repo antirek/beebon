@@ -1,6 +1,6 @@
+const config = require('config');
 
-var Server = require('./reporter/server');
-var config = require('config');
+let ReportServer = require('./reporter/server');
 
-var server = Server(config);
+let server = new ReportServer(config);
 server.run();

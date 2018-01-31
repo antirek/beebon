@@ -1,28 +1,45 @@
-const mysql = require('mysql2/promise');
+const mysql = require('mysql2');
 const console = require('tracer').colorConsole();
 
-const Db = (config) => {
-    let conn = mysql.createConnection(config.mysql);
+function Db(config) {
 
-    let handleDisconnect = (connection) => {
-        connection.catch((err) => {
-            if (!err.fatal) {
-                return;
-            }
+    return new Promise((resolve, reject) => {
+        let conn = mysql.createConnection(config.mysql);
 
-            if (err.code !== 'PROTOCOL_CONNECTION_LOST') {
-                throw err;
-            }
+        function handleDisconnect(connection) {
+            connection.on('error', (err) => {
 
-            console.log('Re-connecting lost connection: ' + err.stack);
-            conn = mysql.createConnection(config.mysql);
-            handleDisconnect(conn);
+                if (!err.fatal) {
+                    return;
+                }
+                if (err.code !== 'PROTOCOL_CONNECTION_LOST') {
+                    throw err;
+                }
+                setTimeout(() => {
+                    conn = mysql.createConnection(config.mysql);
+                    handleDisconnect(conn);
+                }, 1000);
+            });
+        }
+
+        handleDisconnect(conn);
+
+        function Query(query, params = {}) {
+            return new Promise((resolve, reject) => {
+                conn.query(query, params, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+                })
+            })
+        }
+
+        resolve({
+            query: Query,
         });
-    }
-
-    handleDisconnect(conn);
-
-    return conn;
-};
+    })
+}
 
 module.exports = Db;

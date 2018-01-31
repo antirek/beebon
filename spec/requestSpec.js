@@ -21,12 +21,12 @@ describe('App', () => {
     });
 
     it('log pass good', (done) => {
-        var conn = Promise.resolve({ 
+        var conn = { 
             query: (q, v) => { 
                 console.log('query', q, v)
                 return Promise.resolve([{insertId: 'good'}]);
             }
-        })
+        }
         let config = {filestore: ''};
         let kue;
         let app = createApp({conn, kue, config});
@@ -51,12 +51,12 @@ describe('App', () => {
 
 
     it('log pass good with auth', (done) => {
-        var conn = Promise.resolve({ 
+        var conn = { 
             query: (q, v) => { 
                 console.log('query', q, v)
                 return Promise.resolve([{insertId: 'good'}]);
             }
-        })
+        }
         let config = {filestore: '', auth: {users: {test: 'test'}}};
         let kue;
         let app = createApp({conn, kue, config});
@@ -81,12 +81,12 @@ describe('App', () => {
     });
 
     it('task pass good', (done) => {
-        var conn = Promise.resolve({ 
+        var conn = { 
             query: (q, v) => { 
                 console.log('query', q, v)
                 return Promise.resolve([{insertId: 'good'}]);
             }
-        })
+        }
         let config = {
             filestore: '', 
             kue: {
@@ -117,12 +117,12 @@ describe('App', () => {
     });
 
     it('get status by task id', (done) => {
-        var conn = Promise.resolve({ 
+        var conn = { 
             query: (q, v) => { 
                 console.log('query', q, v)
                 return Promise.resolve([[{insertId: 'good', status: 'status'}]]);
             }
-        })
+        }
         let config = {
             filestore: '', 
             kue: {

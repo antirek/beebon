@@ -1,4 +1,3 @@
-const express = require('express');
 const console = require('tracer').colorConsole();
 
 const handler = ({conn, kue, config}) => {
@@ -10,7 +9,7 @@ const handler = ({conn, kue, config}) => {
         var tag = (req.params.tag) ? req.params.tag : '';
         var payload = JSON.stringify(req.body || {});
 
-        console.log([            
+        console.log([
             'key: ' + key,
             'tag: ' + tag,
             'payload: ' + payload
@@ -21,12 +20,11 @@ const handler = ({conn, kue, config}) => {
             return;
         }
 
-        conn.then((c) => {
-            return c.query("INSERT INTO ?? (`tag`, `payload`) VALUES ( ? , ? );",
-                [key, tag, payload]);
-        })
+        conn.query("INSERT INTO ?? (`tag`, `payload`) VALUES ( ? , ? );",
+                [key, tag, payload])
         .then((r) => {
-            let id = r[0].insertId;
+            console.log('result:', r)
+            let id = r.insertId;
             console.log('inserted id', id);
             if (req.sendToKue) {
                 kue.publish(config.kue.prefix + key, req.body, id);
@@ -38,12 +36,12 @@ const handler = ({conn, kue, config}) => {
             console.log('exec time:', new Date().getTime() - start, "ms");
         })
         .catch((e) => {
-            console.log('error:', e)
+            console.log('error:', e);
             res.status(500).json({error: 'error'});
         });
     };
 
     return { handleRequest }
-}
+};
 
 module.exports = handler;

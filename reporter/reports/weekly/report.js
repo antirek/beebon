@@ -55,7 +55,7 @@ class WeeklyReport extends Report {
         ].join("");
 
         var i = new Inky();
-        var html = cheerio.load(input)
+        var html = cheerio.load(input);
         var convertedHtml = i.releaseTheKraken(html);
 
         console.log(convertedHtml);

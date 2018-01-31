@@ -1,4 +1,3 @@
-const express = require('express');
 const Joi = require('joi');
 const console = require('tracer').colorConsole();
 
@@ -7,33 +6,48 @@ const Kue = require('./kue');
 const Db = require('./../common/db');
 const createApp = require('./app');
 
-const server = (config) => {
 
-    let app, conn, kue;
+class CollectorServer {
+    constructor(config) {
+        this._config = config;
+    }
 
-    let init = (config) => {
-        conn = Db(config);
-        kue = new Kue({conn, config});
-        app = createApp({conn, kue, config});
-    };
+    async _init(config) {
+        let conn = await Db(config);
+        let kue = new Kue({conn, config});
+        let app = createApp({conn, kue, config});
+        return {app, config}
+    }
 
-    Joi.validate(config, configSchema, {allowUnknown: true}, (err, config) => {
-        if (err) {
-            console.log(err);
-            process.exit(1);
-        } else {
-            init(config);
-        }
-    });
+    _validateConfig() {
+        let self = this;
+        return new Promise((resolve, reject) => {
+            Joi.validate(self._config, configSchema, {allowUnknown: true}, (err, config) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    self._config = config;
+                    resolve(config)
+                }
+            });
+        })
+    }
 
-    let run = () => {
+    _startApp({app, config}) {
         app.listen(config.collector.port, () => {
             console.log('collector app start with config:', config);
         });
+    }
 
-    };
+    run() {
+        this._validateConfig()
+            .then(this._init)
+            .then(this._startApp)
+            .catch((err) => {
+                console.log(err);
+                process.exit(1);
+            });
 
-    return { run }
-};
-
-module.exports = server;
+    }
+}
+module.exports = CollectorServer;

@@ -1,6 +1,4 @@
-
 const console = require('tracer').colorConsole();
-const express = require('express');
 
 const handler = ({conn, fs, config}) => {
 
@@ -12,10 +10,8 @@ const handler = ({conn, fs, config}) => {
             Promise.reject({fail: true, description: "file not send"});
         }
 
-        conn.then((c) => {
-            return c.query("INSERT INTO files (`filename`, `mime`, `originalname`) VALUES ( ? , ? , ? );"
-            , [file.filename, file.mimetype, file.originalname]);
-        })
+        conn.query("INSERT INTO files (`filename`, `mime`, `originalname`) VALUES ( ? , ? , ? );"
+            , [file.filename, file.mimetype, file.originalname])
         .then((data) => {
             console.log('data:', data);
             return Promise.resolve({result: 'success', id: data[0].insertId.toString()});
