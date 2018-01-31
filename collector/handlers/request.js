@@ -32,6 +32,7 @@ const handler = ({conn, kue, config}) => {
             return Promise.resolve({id})
         })
         .then((r) => {
+            console.log('r:', r);
             res.status(200).json({result: 'success', id: r.id.toString()});
             console.log('exec time:', new Date().getTime() - start, "ms");
         })

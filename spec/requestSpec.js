@@ -24,7 +24,7 @@ describe('App', () => {
         var conn = { 
             query: (q, v) => { 
                 console.log('query', q, v)
-                return Promise.resolve([{insertId: 'good'}]);
+                return Promise.resolve({insertId: 'good'});
             }
         }
         let config = {filestore: ''};
@@ -54,7 +54,7 @@ describe('App', () => {
         var conn = { 
             query: (q, v) => { 
                 console.log('query', q, v)
-                return Promise.resolve([{insertId: 'good'}]);
+                return Promise.resolve({insertId: 'good'});
             }
         }
         let config = {filestore: '', auth: {users: {test: 'test'}}};
@@ -84,7 +84,7 @@ describe('App', () => {
         var conn = { 
             query: (q, v) => { 
                 console.log('query', q, v)
-                return Promise.resolve([{insertId: 'good'}]);
+                return Promise.resolve({insertId: 'good'});
             }
         }
         let config = {
