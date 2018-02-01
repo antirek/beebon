@@ -1,28 +1,47 @@
 const console = require('tracer').colorConsole();
+const clientIp = require('client-ip');
+
+const preparePayload = (req, rawPayload) => {
+    console.log('raw payload:', rawPayload);
+    if (rawPayload.origin) {
+        rawPayload.origin.ip = clientIp(req)   
+    } else {
+        rawPayload['origin'] = { 
+            ip: clientIp(req)
+        };
+    }
+    return rawPayload;
+}
+
+const isJson = (rawPayload) => {
+    return new Promise((resolve, reject) => {
+        try {
+            var payload = JSON.stringify(rawPayload);
+            resolve(payload);
+        } catch (err) {
+            console.log('err parse', err);
+            reject({result: 'fail', description: 'not valid json'});
+        }
+    });
+}
 
 const handler = ({conn, kue, config}) => {
 
-    var handleRequest = (req, res) => {
-        var start = new Date().getTime();
+    const handleRequest = (req, res) => {
+        let start = new Date().getTime();
 
-        var key = req.swagger.params.key.value; //req.params.key;
-        var tag = (req.params.tag) ? req.params.tag : '';
-        var payload = JSON.stringify(req.body || {});
+        let key = req.swagger.params.key.value; //req.params.key;
+        let tag = (req.params.tag) ? req.params.tag : '';
+        let rawPayload = req.body || null;
+        
+        console.log('data:', {key, tag, rawPayload});
 
-        console.log([
-            'key: ' + key,
-            'tag: ' + tag,
-            'payload: ' + payload
-        ].join(", "));
-
-        if (!payload) {
-            res.status(400).json({result: 'fail', description: 'not valid json'});
-            return;
-        }
-
-        conn.query("INSERT INTO ?? (`tag`, `payload`) VALUES ( ? , ? );",
-                [key, tag, payload])
-        .then((r) => {
+        isJson(rawPayload).then((payload) => {
+            return preparePayload(req, rawPayload);
+        }).then((preparedPayload) => {
+            return conn.query("INSERT INTO ?? (`tag`, `payload`) VALUES ( ? , ? );",
+                [key, tag, preparedPayload]);    
+        }).then((r) => {
             console.log('result:', r)
             let id = r.insertId;
             console.log('inserted id', id);
