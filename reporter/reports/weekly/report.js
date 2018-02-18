@@ -8,8 +8,7 @@ var Report = require('../report');
 
 class WeeklyReport extends Report {
     _getStringSchedule() {
-        //return 'every 1 minute'
-        return 'every monday on the first hour';
+        return 'every 1 day at 01:01 am';
     }
 
     _getReportSubject() {
@@ -107,4 +106,5 @@ class WeeklyReport extends Report {
     }
 
 }
+
 module.exports = WeeklyReport;
