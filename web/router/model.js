@@ -119,7 +119,7 @@ function createRouter(conn, config) {
             "PRIMARY KEY (`id`)" +
             ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
-        let query_create_time_index = "create index " key + "_timestamp_index on " + key + " (timestamp);";
+        let query_create_time_index = "create index " + key + "_timestamp_index on " + key + " (timestamp);";
 
         let query = [
           query_create_table, 

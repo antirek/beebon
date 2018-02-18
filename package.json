@@ -12,10 +12,10 @@
   "license": "ISC",
   "dependencies": {
     "angular": "^1.6.8",
-    "angular-bootstrap": "^0.12.2",
     "angular-highlightjs": "^0.7.1",
     "angular-resource": "^1.6.8",
     "angular-route": "^1.6.8",
+    "angular-ui-bootstrap": "^2.5.6",
     "angular-ui-router": "^1.0.3",
     "basic-auth": "^1.1.0",
     "body-parser": "^1.15.2",

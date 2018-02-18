@@ -3,6 +3,7 @@ html(lang='ru')
     head
         title Beebon Web
         link(rel='stylesheet',href='/static/bootstrap/dist/css/bootstrap.min.css')
+        link(rel='stylesheet',href='/static/angular-ui-bootstrap/dist/ui-bootstrap-csp.css')
         link(rel='stylesheet',href='/static/highlightjs/styles/github.css')
         link(rel='stylesheet',href='/static/c3/c3.min.css')
 
@@ -17,7 +18,7 @@ html(lang='ru')
         script(src='/static/highlightjs/highlight.pack.js')
         script(src='/static/angular-highlightjs/angular-highlightjs.js')
 
-        script(src='/static/angular-bootstrap/ui-bootstrap-tpls.min.js')
+        script(src='/static/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js')
         script(src="/static/d3/d3.min.js")
         script(src="/static/c3/c3.min.js")
         script(src='/public/app.js')
@@ -28,9 +29,9 @@ html(lang='ru')
             .collapse.navbar-collapse
                 ul.nav.navbar-nav
                     li
-                      a(href='/kue/', target='_new')
-                        | Kue
-                        span.sr-only (current)
+                        a(href='/kue/', target='_new')
+                            | Kue
+                            span.sr-only (current)
 
         .container
             .row
