@@ -1,45 +1,44 @@
 const mysql = require('mysql2');
-const console = require('tracer').colorConsole();
 
 function Db(config) {
 
-    return new Promise((resolve, reject) => {
-        let conn = mysql.createConnection(config.mysql);
+  return new Promise((resolve) => {
+    let conn = mysql.createConnection(config.mysql);
 
-        function handleDisconnect(connection) {
-            connection.on('error', (err) => {
+    function handleDisconnect(connection) {
+      connection.on('error', (err) => {
 
-                if (!err.fatal) {
-                    return;
-                }
-                if (err.code !== 'PROTOCOL_CONNECTION_LOST') {
-                    throw err;
-                }
-                setTimeout(() => {
-                    conn = mysql.createConnection(config.mysql);
-                    handleDisconnect(conn);
-                }, 1000);
-            });
+        if (!err.fatal) {
+          return;
         }
-
-        handleDisconnect(conn);
-
-        function Query(query, params = {}) {
-            return new Promise((resolve, reject) => {
-                conn.query(query, params, (err, result) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(result);
-                    }
-                })
-            })
+        if (err.code !== 'PROTOCOL_CONNECTION_LOST') {
+          throw err;
         }
+        setTimeout(() => {
+          conn = mysql.createConnection(config.mysql);
+          handleDisconnect(conn);
+        }, 1000);
+      });
+    }
 
-        resolve({
-            query: Query,
+    handleDisconnect(conn);
+
+    function Query(query, params = {}) {
+      return new Promise((resolve, reject) => {
+        conn.query(query, params, (err, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(result);
+          }
         });
-    })
+      });
+    }
+
+    resolve({
+      query: Query,
+    });
+  });
 }
 
 module.exports = Db;

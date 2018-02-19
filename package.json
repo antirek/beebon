@@ -3,10 +3,11 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "test": "jasmine",
+    "test": "jasmine && npm run lint",
     "collector": "node collector",
     "web": "node web",
-    "reporter": "node reporter"
+    "reporter": "node reporter",
+    "lint": "eslint --fix collector/*.js collector/**/*.js common/*.js"
   },
   "author": "",
   "license": "ISC",
@@ -47,6 +48,7 @@
   },
   "devDependencies": {
     "jasmine": "^2.8.0",
+    "eslint": "^4.10.0",
     "request": "^2.83.0"
   }
 }
