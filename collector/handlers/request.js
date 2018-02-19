@@ -10,7 +10,7 @@ const preparePayload = (req, rawPayload) => {
             ip: clientIp(req)
         };
     }
-    return rawPayload;
+    return JSON.stringify(rawPayload);
 }
 
 const isJson = (rawPayload) => {
