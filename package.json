@@ -7,7 +7,7 @@
     "collector": "node collector",
     "web": "node web",
     "reporter": "node reporter",
-    "lint": "eslint --fix collector/*.js collector/**/*.js common/*.js"
+    "lint": "eslint --fix collector/*.js collector/**/*.js common/*.js reporter/*.js reporter/**/**/*.js reporter/**/*.js web/*.js web/router/*js"
   },
   "author": "",
   "license": "ISC",

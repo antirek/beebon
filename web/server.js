@@ -10,58 +10,58 @@ const DBManager = require('./../common/db');
 let createRouter = require('./router/model');
 
 class WebServer {
-    constructor(config) {
-        this._config = config;
-    }
+  constructor(config) {
+    this._config = config;
+  }
 
-    _initDb() {
-        let config = this._config;
-        return DBManager(config)
-            .then((conn) => {
-                return {conn, config}
-            });
-    }
+  _initDb() {
+    let config = this._config;
+    return DBManager(config)
+      .then((conn) => {
+        return {conn, config};
+      });
+  }
 
 
-    _initApp({conn, config}) {
-        let app = express();
-        kue.createQueue({redis: config.kue.redis});
-        kueUiExpress(app, '/kue/', '/kue-api');
+  _initApp({conn, config}) {
+    let app = express();
+    kue.createQueue({redis: config.kue.redis});
+    kueUiExpress(app, '/kue/', '/kue-api');
 
-        app.set('views', __dirname + "/views");
-        app.set('view engine', 'pug');
-        app.use(bodyParser.json());
+    app.set('views', __dirname + '/views');
+    app.set('view engine', 'pug');
+    app.use(bodyParser.json());
 
-        app.use('/static', express["static"](__dirname + "./../node_modules"));
-        app.use('/public', express["static"](__dirname + "/public"));
+    app.use('/static', express['static'](__dirname + './../node_modules'));
+    app.use('/public', express['static'](__dirname + '/public'));
 
-        app.use('/keys', createRouter(conn, config));
-        app.use('/kue-api', kue.app);
+    app.use('/keys', createRouter(conn, config));
+    app.use('/kue-api', kue.app);
 
-        app.get('/partials/:view', (req, res) => {
-            res.render('partials/' + req.params.view);
-        });
+    app.get('/partials/:view', (req, res) => {
+      res.render('partials/' + req.params.view);
+    });
 
-        app.get('/', (req, res) => {
-            res.render('index');
-        });
-        return {app, config};
-    }
+    app.get('/', (req, res) => {
+      res.render('index');
+    });
+    return {app, config};
+  }
 
-    _startApp({app, config}) {
-        app.listen(config.web.port, () => {
-            console.log('web app started with config', config);
-        });
-    }
+  _startApp({app, config}) {
+    app.listen(config.web.port, () => {
+      console.log('web app started with config', config);
+    });
+  }
 
-    run() {
-        this._initDb()
-            .then(this._initApp)
-            .then(this._startApp)
-            .catch((err) => {
-                console.log(err)
-            })
-    }
+  run() {
+    this._initDb()
+      .then(this._initApp)
+      .then(this._startApp)
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 }
 
 module.exports = WebServer;
