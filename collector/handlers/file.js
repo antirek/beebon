@@ -6,7 +6,7 @@ const handler = ({conn}) => {
     var file = req.swagger.params.file.value;
     console.log('file:', file);
 
-    if (!file) { 
+    if (!file) {
       Promise.reject({fail: true, description: 'file not send'});
     }
 
@@ -14,7 +14,7 @@ const handler = ({conn}) => {
       , [file.filename, file.mimetype, file.originalname])
       .then((data) => {
         console.log('data:', data);
-        return Promise.resolve({result: 'success', id: data[0].insertId.toString()});
+        return Promise.resolve({result: 'success', id: data.insertId.toString()});
       })
       .then((result) => {
         console.log('result:', result);
