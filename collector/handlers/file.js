@@ -1,9 +1,8 @@
 const console = require('tracer').colorConsole();
-
-const handler = ({conn}) => {
+const handler = ({conn, moveFile}) => {
 
   const handleFile = (req, res) => {
-    var file = req.swagger.params.file.value;
+    let file = req.swagger.params.file.value;
     console.log('file:', file);
 
     if (!file) {
@@ -14,6 +13,7 @@ const handler = ({conn}) => {
       , [file.filename, file.mimetype, file.originalname])
       .then((data) => {
         console.log('data:', data);
+        moveFile(file.filename, data.insertId.toString());
         return Promise.resolve({result: 'success', id: data.insertId.toString()});
       })
       .then((result) => {

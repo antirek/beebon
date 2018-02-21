@@ -1,5 +1,6 @@
 const express = require('express');
 const fs = require('fs');
+
 const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -20,9 +21,15 @@ function createApp({conn, kue, config}) {
   let spec = fs.readFileSync(path.join(__dirname, 'api.yaml'), 'utf8');
   let swaggerDoc = jsyaml.safeLoad(spec);
 
-  var handlerRequest = HandlerRequest({conn, kue, config});
-  var handlerStatus = HandlerStatus({conn});
-  var handlerFile = HandlerFile({conn, fs: fse, config});
+  function moveFile(fileName, targetFileName){
+    let filePath = path.join(config.filestore, fileName);
+    let targetFilePath = path.join(config.filestore, targetFileName);
+    fse.moveSync(filePath, targetFilePath, {overwrite: true});
+  }
+
+  let handlerRequest = HandlerRequest({conn, kue, config});
+  let handlerStatus = HandlerStatus({conn});
+  let handlerFile = HandlerFile({conn, moveFile});
 
   let options = {
     controllers: {

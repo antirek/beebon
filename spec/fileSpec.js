@@ -1,33 +1,31 @@
 const request = require('request');
-const HandlerFile = require('../collector/handlers/file');
 const express = require('express');
-const bodyparser = require('body-parser');
 
 const config = {
     port: 3000,
     filestore: 'uploads'
-}
+};
 
-var createApp = require('./../collector/app');
+let createApp = require('./../collector/app');
 
-var conn = { 
+let conn = {
     query: (q, v) => { 
-        console.log('query', q, v)
-        return Promise.resolve([{insertId: 'good'}]);
+        console.log('query', q, v);
+        return Promise.resolve({insertId: 'good'});
     }
-}
+};
 
 describe('handler file', () => {
     it('should return 200 response code on post file api/file/', (done) => {
 
-        var kue = {}
-        var formData = {
+        let kue = {};
+        let formData = {
             file: require('fs').createReadStream(__dirname + '/1.gif')
         };
 
-        var app = createApp({conn, kue, config})
+        let app = createApp({conn, kue, config});
         
-        var s = app.listen(config.port, () => {
+        let s = app.listen(config.port, () => {
             let url = 'http://localhost:' + config.port + '/api/file';
             
             request.post({url, formData}, (error, response) => {
