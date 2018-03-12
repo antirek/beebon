@@ -25,12 +25,10 @@ ul.nav.nav-tabs(role="tablist" id="keyTab")
                 thead
                     tr
                         th Timestamp
-                        th Tag
                         th
                 tbody
                     tr(ng-repeat="item in listCtrl.keys")
                         td {{item.timestamp}}
-                        td {{item.tag}}
                         td
                             button.btn.btn-default(ng-click="listCtrl.selectItem(item.id)")
                                 spam.glyphicon.glyphicon-eye-open

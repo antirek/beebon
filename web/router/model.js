@@ -113,8 +113,7 @@ function createRouter(conn, config) {
 
     let query_create_table = 'CREATE TABLE `' + key + '` (' +
             '`id` int(10) NOT NULL AUTO_INCREMENT, ' +
-            '`timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, ' +
-            '`tag` varchar(32) NOT NULL DEFAULT \'\', ' +
+            '`timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, ' +            
             '`payload` json DEFAULT NULL, ' +
             '`status` VARCHAR(32) DEFAULT NULL, ' +
             'PRIMARY KEY (`id`)' +

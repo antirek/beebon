@@ -34,17 +34,17 @@ class Publisher {
       key: task.replace(this.prefix, '')
     };
 
-    let job = this.queue.create(task, data).save((err) => {
-      if (err) {
-        console.log('err', err);
-        this.setStatus(jobData, 'error');
-      } else {
-        console.log('publish to kue', jobData);
-        this.jobs[job.id] = jobData;
-      }
-    });
+    let job = this.queue.create(task, data)
+      .save((err) => {
+        if (err) {
+          console.log('err', err);
+          this.setStatus(jobData, 'error');
+        } else {
+          console.log('publish to kue', jobData);
+          this.jobs[job.id] = jobData;
+        }
+      });
   }
 }
-
 
 module.exports = Publisher;

@@ -31,16 +31,15 @@ const handler = ({conn, kue, config}) => {
     let start = new Date().getTime();
 
     let key = req.swagger.params.key.value; //req.params.key;
-    let tag = (req.params.tag) ? req.params.tag : '';
     let rawPayload = req.body || null;
         
-    console.log('data:', {key, tag, rawPayload});
+    console.log('data:', {key, rawPayload});
 
     isJson(rawPayload).then(() => {
       return preparePayload(req, rawPayload);
     }).then((preparedPayload) => {
-      return conn.query('INSERT INTO ?? (`tag`, `payload`) VALUES ( ? , ? );',
-        [key, tag, preparedPayload]);    
+      return conn.query('INSERT INTO ?? (`payload`) VALUES ( ? );',
+        [key, preparedPayload]);    
     }).then((r) => {
       console.log('result:', r);
       let id = r.insertId;

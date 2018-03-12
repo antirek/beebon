@@ -35,7 +35,7 @@ class ReportServer {
     let weeklyReport = new WeeklyReport(dbManager, mailer);
     //let timer = later.setInterval(() => dailyReport.run(), dailyReport.schedule);
     //let timer2 = later.setInterval(() => weeklyReport.run(), weeklyReport.schedule);
-    later.setInterval(() => dailyReport.run(), dailyReport.schedule);
+    //later.setInterval(() => dailyReport.run(), dailyReport.schedule);
     later.setInterval(() => weeklyReport.run(), weeklyReport.schedule);
 
     console.log('reporter server start');
