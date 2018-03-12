@@ -3,7 +3,7 @@ const console = require('tracer').colorConsole();
 const Joi = require('joi');
 
 const Mailer = require('./mailer');
-const DailyReport = require('./reports/daily/report');
+//const DailyReport = require('./reports/daily/report');
 const WeeklyReport = require('./reports/weekly/report');
 const configSchema = require('./../common/configSchema');
 const DBManager = require('./../common/db');
@@ -31,7 +31,7 @@ class ReportServer {
     let mailer = Mailer(config);
     let dbManager = await DBManager(config);
 
-    let dailyReport = new DailyReport(dbManager, mailer);
+    //let dailyReport = new DailyReport(dbManager, mailer);
     let weeklyReport = new WeeklyReport(dbManager, mailer);
     //let timer = later.setInterval(() => dailyReport.run(), dailyReport.schedule);
     //let timer2 = later.setInterval(() => weeklyReport.run(), weeklyReport.schedule);
