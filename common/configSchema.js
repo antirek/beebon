@@ -1,9 +1,9 @@
-const Joi = require('joi');
+const Joi = require('joi')
 
 const configSchema = Joi.object().keys({
   collector: Joi.object().keys({
     port: Joi.number().integer().min(1).max(65535).required(),
-    baseUrl: Joi.string().required(), 
+    baseUrl: Joi.string().required()
   }),
   mysql: Joi.object().keys({
     host: Joi.string().required(),
@@ -35,6 +35,6 @@ const configSchema = Joi.object().keys({
     port: Joi.number().integer().min(1).max(65535).required()
   }),
   filestore: Joi.string().default('/var/beebon/filestore/')
-});
+})
 
-module.exports = configSchema;
+module.exports = configSchema

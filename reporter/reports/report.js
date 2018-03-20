@@ -1,51 +1,50 @@
-const later = require('later');
-const config = require('config');
-const console = require('tracer').colorConsole();
+const later = require('later')
+const config = require('config')
+const console = require('tracer').colorConsole()
 
 class Report {
-  constructor(conn, mailer) {
-    this._conn = conn;
-    this._mailer = mailer;
-    this.schedule = later.parse.text(this._getStringSchedule());
+  constructor (conn, mailer) {
+    this._conn = conn
+    this._mailer = mailer
+    this.schedule = later.parse.text(this._getStringSchedule())
   }
 
-  _getStringSchedule() {
-    return 'every hour';
+  _getStringSchedule () {
+    return 'every hour'
   }
 
-  _getReportSubject() {
-    return 'beebon report';
+  _getReportSubject () {
+    return 'beebon report'
   }
 
-  _getTableCount(table, beginDate, endDate) {
+  _getTableCount (table, beginDate, endDate) {
     return this._conn.query('SELECT count(id) FROM ?? WHERE timestamp between ? and ?;',
       [table, beginDate, endDate])
       .then(counts => {
         return Promise.resolve({
           table: table,
           count: counts[0]['count(id)']
-        });
+        })
       })
-      .catch(console.log);
+      .catch(console.log)
   }
 
-  _getTablesList() {
+  _getTablesList () {
     return this._conn.query('SHOW TABLES;')
       .then(rows => {
-        console.log('rows', rows);
+        console.log('rows', rows)
         return Promise.resolve(rows.map((row) => {
-          return row['Tables_in_' + config.mysql.database];
-        }));
-      });
+          return row['Tables_in_' + config.mysql.database]
+        }))
+      })
   }
 
-  _sendEmail(data) {
-    return this._mailer.send({subject: this._getReportSubject(), data: data});
+  _sendEmail (data) {
+    return this._mailer.send({subject: this._getReportSubject(), data: data})
   }
 
-  run() {
-    console.log('base report body');
+  run () {
+    console.log('base report body')
   }
-
 }
-module.exports = Report;
+module.exports = Report

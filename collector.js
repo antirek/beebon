@@ -1,5 +1,5 @@
-const CollectorServer = require('./collector/server');
-const config = require('config');
+const CollectorServer = require('./collector/server')
+const config = require('config')
 
-let server = new CollectorServer(config);
-server.run();
+let server = new CollectorServer(config)
+server.run()

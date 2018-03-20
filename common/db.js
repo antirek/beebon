@@ -1,44 +1,42 @@
-const mysql = require('mysql2');
+const mysql = require('mysql2')
 
-function Db(config) {
-
+function Db (config) {
   return new Promise((resolve) => {
-    let conn = mysql.createConnection(config.mysql);
+    let conn = mysql.createConnection(config.mysql)
 
-    function handleDisconnect(connection) {
+    function handleDisconnect (connection) {
       connection.on('error', (err) => {
-
         if (!err.fatal) {
-          return;
+          return
         }
         if (err.code !== 'PROTOCOL_CONNECTION_LOST') {
-          throw err;
+          throw err
         }
         setTimeout(() => {
-          conn = mysql.createConnection(config.mysql);
-          handleDisconnect(conn);
-        }, 1000);
-      });
+          conn = mysql.createConnection(config.mysql)
+          handleDisconnect(conn)
+        }, 1000)
+      })
     }
 
-    handleDisconnect(conn);
+    handleDisconnect(conn)
 
-    function Query(query, params = {}) {
+    function Query (query, params = {}) {
       return new Promise((resolve, reject) => {
         conn.query(query, params, (err, result) => {
           if (err) {
-            reject(err);
+            reject(err)
           } else {
-            resolve(result);
+            resolve(result)
           }
-        });
-      });
+        })
+      })
     }
 
     resolve({
-      query: Query,
-    });
-  });
+      query: Query
+    })
+  })
 }
 
-module.exports = Db;
+module.exports = Db
