@@ -8,6 +8,11 @@
     "web": "node web",
     "reporter": "node reporter"
   },
+  "bin": {
+    "beebon-collector": "./collector.js",
+    "beebon-web": "./web.js",
+    "beebon-reporter": "./reporter.js"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {

@@ -3,6 +3,10 @@ module.exports = {
     port: 3000,
     baseUrl: 'http://localhost:3000'
   },
+  cleaner: {
+    offsetDays: '30',
+    executeCron: '0 0 4 * * *',
+  },
   mysql: {
     host: 'mysqldb',
     user: 'root',

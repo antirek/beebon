@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const WebServer = require('./web/server')
 const config = require('config')
 

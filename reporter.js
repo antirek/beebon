@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const config = require('config')
 
 let ReportServer = require('./reporter/server')
