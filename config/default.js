@@ -5,7 +5,7 @@ module.exports = {
   },
   cleaner: {
     offsetDays: '30',
-    executeCron: '0 0 4 * * *',
+    executeCron: '0 0 4 * * *'
   },
   mysql: {
     host: 'mysqldb',
