@@ -47,12 +47,12 @@
     "mysql2": "^1.1.0",
     "nodemailer": "^4.4.2",
     "swagger-parser": "^4.0.1",
-    "swagger-tools": "^0.10.3",
+    "swagger-tools": "^0.10.4",
     "tracer": "^0.8.3"
   },
   "devDependencies": {
     "jasmine": "^2.8.0",
-    "request": "^2.83.0",
+    "request": "^2.88.0",
     "standard": "^11.0.1"
   }
 }
