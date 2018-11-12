@@ -1,8 +1,3 @@
 FROM node:8.9
 
-RUN mkdir -p /usr/src/app && \
-    git clone https://github.com/antirek/beebon.git /usr/src/app
-
-WORKDIR /usr/src/app
-
-RUN npm install
+RUN npm install beebon@0.0.1 -g

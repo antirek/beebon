@@ -34,7 +34,11 @@ const configSchema = Joi.object().keys({
   web: Joi.object().keys({
     port: Joi.number().integer().min(1).max(65535).required()
   }),
-  filestore: Joi.string().default('/var/beebon/filestore/')
+  filestore: Joi.string().default('/var/beebon/filestore/'),
+  cleaner: Joi.object().keys({
+    offsetDays: Joi.string().default('30'),
+    executeCron: Joi.string().default('0 0 4 * * *')
+  })
 })
 
 module.exports = configSchema
