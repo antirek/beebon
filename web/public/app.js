@@ -72,7 +72,7 @@ angular.module('beebon_dashboard', [
           key: this.key,
           $limit: this.limit,
           $offset: this.offset,
-          $select: ['id', 'tag', 'timestamp']
+          $select: ['id', 'timestamp']
         })
         console.log(self.keys)
       }

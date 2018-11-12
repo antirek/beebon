@@ -22,7 +22,7 @@ services:
     restart: always
 
   collector:
-    image: antirek/beebon:0.0.1
+    image: antirek/beebon:0.0.2
     command: beebon-collector
     ports:
       - "3000:3000"
@@ -36,7 +36,7 @@ services:
     restart: always
 
   web:
-    image: antirek/beebon:0.0.1
+    image: antirek/beebon:0.0.2
     command: beebon-web
     ports:
       - "3101:3101"
@@ -50,7 +50,7 @@ services:
     restart: always
 
   reporter:
-    image: antirek/beebon:0.0.1
+    image: antirek/beebon:0.0.2
     command: beebon-reporter
     network_mode: "service:mysqldb"
     environment:
