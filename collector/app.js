@@ -3,7 +3,6 @@ const fs = require('fs')
 
 const path = require('path')
 const cors = require('cors')
-const bodyParser = require('body-parser')
 const swaggerTools = require('swagger-tools')
 const jsyaml = require('js-yaml')
 const basicAuth = require('express-basic-auth')
@@ -57,7 +56,9 @@ function createApp ({conn, kue, config}) {
     }))
   }
 
-  app.use(bodyParser.json())
+  app.use(express.json({
+    limit: '10mb',
+  }))
   app.use(cors())
   app.use(upload.fields([{name: 'file'}]))
 
