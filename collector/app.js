@@ -57,7 +57,7 @@ function createApp ({conn, kue, config}) {
   }
 
   app.use(express.json({
-    limit: '10mb',
+    limit: '10mb'
   }))
   app.use(cors())
   app.use(upload.fields([{name: 'file'}]))
