@@ -35,6 +35,7 @@ class Publisher {
     }
 
     let job = this.queue.create(task, data)
+      .removeOnComplete(true)
       .save((err) => {
         if (err) {
           console.log('err', err)
