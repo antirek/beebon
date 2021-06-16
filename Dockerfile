@@ -1,3 +1,10 @@
-FROM node:8.9
+FROM node:12.16.1
 
-RUN npm install beebon@0.0.3 -g
+ARG NODE_ENV
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+RUN git clone https://github.com/antirek/beebon /usr/src/app
+
+RUN npm install
