@@ -1,5 +1,4 @@
 const express = require('express')
-const bodyParser = require('body-parser')
 const console = require('tracer').colorConsole()
 const kue = require('kue')
 const kueUiExpress = require('kue-ui-express')
@@ -29,7 +28,7 @@ class WebServer {
 
     app.set('views', path.join(__dirname, '/views'))
     app.set('view engine', 'pug')
-    app.use(bodyParser.json())
+    app.use(express.json())
 
     app.use('/static', express['static'](path.join(__dirname, './../node_modules')))
     app.use('/public', express['static'](path.join(__dirname, '/public')))
